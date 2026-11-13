@@ -3,13 +3,9 @@
     "rootNamespace": "Game.UI",
     "references": [
         "Game.Core",
-        "Game.Settings",
-        "Game.Input",
         "PrimeTween.Runtime",
         "UniTask",
-        "Unity.TextMeshPro",
-        "UnityEngine.UI",
-        "VContainer"
+        "UnityEngine.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

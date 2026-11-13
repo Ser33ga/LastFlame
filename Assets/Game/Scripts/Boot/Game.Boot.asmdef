@@ -5,7 +5,6 @@
         "Game.Core",
         "Game.Settings",
         "Game.Input",
-        "Game.Audio",
         "Game.UI",
         "UniTask",
         "Unity.InputSystem",

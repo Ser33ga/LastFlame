@@ -1,5 +1,5 @@
 # Game.Core
 
-Единая палитра (Palette), загрузка сцен, локализация, контракты аудио и состояний.
+Нейтральные базовые контракты: загрузка сцен (ISceneLoader), фейдер (IScreenFader) и локализация (ILocalizationService).
 
-- См. [ROADMAP.md](ROADMAP.md) для статуса задач и возможных блокеров.
+- См. [ROADMAP.md](ROADMAP.md) для статуса задач.

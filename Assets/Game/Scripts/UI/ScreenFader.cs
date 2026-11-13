@@ -126,7 +126,7 @@ namespace Game.UI
                 }
             }
 
-            _overlayImage.color = Palette.VoidNight;
+            _overlayImage.color = Color.black;
             _overlayImage.raycastTarget = true;
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = _canvasGroup.alpha > 0.01f;

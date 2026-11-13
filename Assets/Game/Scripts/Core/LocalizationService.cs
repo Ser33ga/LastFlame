@@ -4,24 +4,24 @@ using System.Collections.Generic;
 namespace Game.Core
 {
     /// <summary>
-    /// Stateless-per-instance DI localization service holding built-in RU/EN string tables without singletons.
+    /// Empty DI localization service supporting runtime RU/EN switching without singletons.
+    /// Keys are registered per feature when gameplay/UI modules are added.
     /// </summary>
     public sealed class LocalizationService : ILocalizationService
     {
         private static readonly string[] SupportedLanguages = { "ru", "en" };
 
         private readonly Dictionary<string, Dictionary<string, string>> _tables =
-            new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+            new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["ru"] = new Dictionary<string, string>(StringComparer.Ordinal),
+                ["en"] = new Dictionary<string, string>(StringComparer.Ordinal)
+            };
 
         public string CurrentLanguage { get; private set; } = "ru";
         public IReadOnlyList<string> AvailableLanguages => SupportedLanguages;
 
         public event Action<string> OnLanguageChanged;
-
-        public LocalizationService()
-        {
-            SeedDefaultTables();
-        }
 
         public string Get(string key, params object[] args)
         {
@@ -112,49 +112,6 @@ namespace Game.Core
 
             string lower = languageCode.Trim().ToLowerInvariant();
             return lower.StartsWith("en", StringComparison.Ordinal) ? "en" : "ru";
-        }
-
-        private void SeedDefaultTables()
-        {
-            _tables["ru"] = new Dictionary<string, string>(StringComparer.Ordinal)
-            {
-                ["game.title"] = "Последний огонёк",
-                ["game.subtitle"] = "Донеси пламя до маяка во тьме",
-                ["ui.play"] = "Зажечь путь",
-                ["ui.resume"] = "Продолжить",
-                ["ui.restart"] = "От последнего факела",
-                ["ui.settings"] = "Настройки",
-                ["ui.language"] = "Язык: RU",
-                ["ui.pause"] = "Пауза",
-                ["ui.flame_label"] = "Пламя: {0}%",
-                ["ui.checkpoints_label"] = "Факелы: {0}/{1}",
-                ["ui.controls_hint"] = "WASD — движение / Пробел — прыжок / Shift — рывок / E — факел / Esc — пауза",
-                ["ui.status.baseline"] = "Огонёк тлеет — мир ждёт света",
-                ["ui.gameover.title"] = "Огонь угас",
-                ["ui.gameover.subtitle"] = "Ветер одолел пламя. Возрождение у последнего факела.",
-                ["ui.victory.title"] = "Маяк зажжён",
-                ["ui.victory.subtitle"] = "Твоё пламя вернуло свет заброшенному миру."
-            };
-
-            _tables["en"] = new Dictionary<string, string>(StringComparer.Ordinal)
-            {
-                ["game.title"] = "Last Flame",
-                ["game.subtitle"] = "Carry the last spark to the lighthouse",
-                ["ui.play"] = "Ignite Journey",
-                ["ui.resume"] = "Resume",
-                ["ui.restart"] = "Retry Checkpoint",
-                ["ui.settings"] = "Settings",
-                ["ui.language"] = "Language: EN",
-                ["ui.pause"] = "Paused",
-                ["ui.flame_label"] = "Flame: {0}%",
-                ["ui.checkpoints_label"] = "Torches: {0}/{1}",
-                ["ui.controls_hint"] = "WASD Move / Space Jump / Shift Flare Dash / E Ignite / Esc Pause",
-                ["ui.status.baseline"] = "The wick glows — awaiting perspective confirmation",
-                ["ui.gameover.title"] = "Flame Extinguished",
-                ["ui.gameover.subtitle"] = "The gale snuffed the candle. Rise at the last lit torch.",
-                ["ui.victory.title"] = "Beacon Lit",
-                ["ui.victory.subtitle"] = "Your final sacrifice returned light to the ruins."
-            };
         }
     }
 }

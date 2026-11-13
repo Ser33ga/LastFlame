@@ -1,5 +1,5 @@
 # Game.Input
 
-Обёртка над New Input System (Move, Jump, Dash/Flare, Interact, Pause) без утечек подписок.
+Нейтральная обёртка над New Input System без допущений по геймплейным действиям.
 
-- См. [ROADMAP.md](ROADMAP.md) для статуса задач и возможных блокеров.
+- См. [ROADMAP.md](ROADMAP.md) для статуса задач.
