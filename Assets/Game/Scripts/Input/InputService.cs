@@ -5,13 +5,16 @@ using UnityEngine.InputSystem;
 namespace Game.Input
 {
     /// <summary>
-    /// Neutral New Input System wrapper bound cleanly without singletons or leaked subscriptions.
-    /// Gameplay actions are extended after mechanics and controls are specified.
+    /// New Input System wrapper bound cleanly without singletons or leaked subscriptions.
     /// </summary>
     public sealed class InputService : IInputService, IDisposable
     {
         private readonly InputAction _moveAction;
         private readonly InputAction _lookAction;
+        private readonly InputAction _attackAction;
+        private readonly InputAction _jumpAction;
+        private readonly InputAction _interactAction;
+        private readonly InputAction _dashAction;
         private readonly InputAction _pauseAction;
         private readonly InputActionMap _playerMap;
         private readonly InputActionMap _uiMap;
@@ -21,6 +24,9 @@ namespace Game.Input
         public bool IsPlayerInputActive { get; private set; } = true;
 
         public event Action OnPausePerformed;
+        public event Action OnAttackPerformed;
+        public event Action OnInteractPerformed;
+        public event Action OnDashPerformed;
 
         public InputService(InputActionAsset inputActions = null)
         {
@@ -32,8 +38,33 @@ namespace Game.Input
 
             _moveAction = _playerMap?.FindAction("Move", throwIfNotFound: false);
             _lookAction = _playerMap?.FindAction("Look", throwIfNotFound: false);
+            _attackAction = _playerMap?.FindAction("Attack", throwIfNotFound: false);
+            _jumpAction = _playerMap?.FindAction("Jump", throwIfNotFound: false);
+            _interactAction = _playerMap?.FindAction("Interact", throwIfNotFound: false);
+            _dashAction = _playerMap?.FindAction("Sprint", throwIfNotFound: false);
             _pauseAction = _uiMap?.FindAction("Cancel", throwIfNotFound: false)
                            ?? _playerMap?.FindAction("Pause", throwIfNotFound: false);
+
+            if (_attackAction != null)
+            {
+                _attackAction.performed += HandleAttackPerformed;
+            }
+
+            if (_jumpAction != null)
+            {
+                _jumpAction.performed += HandleAttackPerformed;
+            }
+
+            if (_interactAction != null)
+            {
+                // Player/Interact uses a Hold interaction in the template asset, so started fires on press.
+                _interactAction.started += HandleInteractStarted;
+            }
+
+            if (_dashAction != null)
+            {
+                _dashAction.performed += HandleDashPerformed;
+            }
 
             if (_pauseAction != null)
             {
@@ -70,6 +101,26 @@ namespace Game.Input
 
         public void Dispose()
         {
+            if (_attackAction != null)
+            {
+                _attackAction.performed -= HandleAttackPerformed;
+            }
+
+            if (_jumpAction != null)
+            {
+                _jumpAction.performed -= HandleAttackPerformed;
+            }
+
+            if (_interactAction != null)
+            {
+                _interactAction.started -= HandleInteractStarted;
+            }
+
+            if (_dashAction != null)
+            {
+                _dashAction.performed -= HandleDashPerformed;
+            }
+
             if (_pauseAction != null)
             {
                 _pauseAction.performed -= HandlePausePerformed;
@@ -77,6 +128,30 @@ namespace Game.Input
 
             _playerMap?.Disable();
             _uiMap?.Disable();
+        }
+
+        private void HandleAttackPerformed(InputAction.CallbackContext _)
+        {
+            if (IsPlayerInputActive)
+            {
+                OnAttackPerformed?.Invoke();
+            }
+        }
+
+        private void HandleInteractStarted(InputAction.CallbackContext _)
+        {
+            if (IsPlayerInputActive)
+            {
+                OnInteractPerformed?.Invoke();
+            }
+        }
+
+        private void HandleDashPerformed(InputAction.CallbackContext _)
+        {
+            if (IsPlayerInputActive)
+            {
+                OnDashPerformed?.Invoke();
+            }
         }
 
         private void HandlePausePerformed(InputAction.CallbackContext _)

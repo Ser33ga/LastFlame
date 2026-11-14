@@ -1,5 +1,10 @@
 # Game.Input
 
-Нейтральная обёртка над New Input System без допущений по геймплейным действиям.
+Абстракция ввода поверх `InputSystem_Actions` (`IInputService`, `InputService`):
 
-- См. [ROADMAP.md](ROADMAP.md) для статуса задач.
+- `Move` (`WASD` / стрелки / стик)
+- `OnAttackPerformed` (`ЛКМ` / `Space` / `Enter`)
+- `OnInteractPerformed` (`E`, подписка на `.started` для мгновенного отклика)
+- `OnDashPerformed` (`Left Shift`)
+
+См. [ROADMAP.md](ROADMAP.md).

@@ -1,0 +1,28 @@
+{
+    "name": "Game.Gameplay",
+    "rootNamespace": "Game.Gameplay",
+    "references": [
+        "Game.Core",
+        "Game.Settings",
+        "Game.Input",
+        "Game.UI",
+        "Game.Flame",
+        "Game.Character",
+        "Game.World",
+        "PrimeTween.Runtime",
+        "UniTask",
+        "Unity.InputSystem",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Universal.2D.Runtime",
+        "VContainer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

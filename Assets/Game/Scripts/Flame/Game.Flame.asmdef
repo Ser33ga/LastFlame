@@ -1,0 +1,21 @@
+{
+    "name": "Game.Flame",
+    "rootNamespace": "Game.Flame",
+    "references": [
+        "Game.Core",
+        "PrimeTween.Runtime",
+        "UniTask",
+        "VContainer",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Universal.2D.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -10,6 +10,7 @@ namespace Game.Core
         string Get(string key, params object[] args);
         bool TryGet(string key, out string localizedValue);
         void SetLanguage(string languageCode);
+        void RegisterTranslations(string languageCode, IReadOnlyDictionary<string, string> entries);
         event Action<string> OnLanguageChanged;
     }
 }

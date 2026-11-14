@@ -1,5 +1,8 @@
 # Game.Boot
 
-Корневой VContainer BootLifetimeScope и BootEntryPoint без синглтонов.
+Стартовый DI-контейнер сцены `Boot.unity`:
 
-- См. [ROADMAP.md](ROADMAP.md) для статуса задач.
+- `BootLifetimeScope` — регистрирует `LocalizationService`, `SettingsService`, `InputService`, `ScreenFader`, `SceneLoader` и `BootEntryPoint` (при наличии `Parent == null` для сохранения `Boot` между сценами).
+- `BootEntryPoint` — применяет настройки и переходит в `Gameplay.unity` через `LifetimeScope.EnqueueParent(_bootScope)`.
+
+См. [ROADMAP.md](ROADMAP.md).

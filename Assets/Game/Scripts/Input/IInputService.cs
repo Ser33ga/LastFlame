@@ -10,6 +10,9 @@ namespace Game.Input
         bool IsPlayerInputActive { get; }
 
         event Action OnPausePerformed;
+        event Action OnAttackPerformed;
+        event Action OnInteractPerformed;
+        event Action OnDashPerformed;
 
         void SetPlayerInputActive(bool active);
         void SetCursorLock(bool locked);
