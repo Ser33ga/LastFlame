@@ -6,6 +6,7 @@ namespace Game.Character
     {
         bool HasMatch { get; }
         int WoodPlanks { get; }
+        bool HasMineKey { get; }
         bool HasExplosive { get; }
         bool HasLighthouseKey { get; }
 
@@ -14,6 +15,8 @@ namespace Game.Character
         void GiveMatch();
         void AddWoodPlanks(int count);
         bool TryConsumeWoodPlanks(int count);
+        void GiveMineKey();
+        bool TryConsumeMineKey();
         void GiveExplosive();
         bool TryConsumeExplosive();
         void GiveLighthouseKey();

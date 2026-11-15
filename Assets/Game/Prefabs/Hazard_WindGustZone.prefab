@@ -372,7 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.World::Game.World.WindGustZone
   _zoneCollider: {fileID: 3207305542378483223}
   _windDirection: {x: -1, y: 0}
-  _pushSpeed: 4.6
+  _pushSpeed: 3.1
   _flameDrainPerSecond: 26
   _calmDuration: 1.6
   _telegraphDuration: 0.85

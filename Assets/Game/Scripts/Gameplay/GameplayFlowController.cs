@@ -382,7 +382,8 @@ namespace Game.Gameplay
                 _inventory.HasMatch,
                 _inventory.WoodPlanks,
                 _inventory.HasExplosive,
-                _inventory.HasLighthouseKey);
+                _inventory.HasLighthouseKey,
+                _inventory.HasMineKey);
         }
 
         private void HandleNearestInteractableChanged(string promptKey, bool canInteract)

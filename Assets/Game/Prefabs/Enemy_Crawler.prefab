@@ -394,7 +394,7 @@ MonoBehaviour:
   _bodyRenderer: {fileID: 6748615096729741521}
   _bodyCollider: {fileID: 2880224357002073809}
   _maxHealth: 2
-  _moveSpeed: 3.25
+  _moveSpeed: 2.15
   _aggroRadius: 6.5
   _contactRadius: 0.8
   _contactFlameLoss: 22

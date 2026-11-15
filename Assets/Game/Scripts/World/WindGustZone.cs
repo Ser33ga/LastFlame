@@ -17,7 +17,7 @@ namespace Game.World
 
         [SerializeField] private BoxCollider2D _zoneCollider;
         [SerializeField] private Vector2 _windDirection = Vector2.left;
-        [SerializeField] private float _pushSpeed = 4.6f;
+        [SerializeField] private float _pushSpeed = 3.1f;
         [SerializeField] private float _flameDrainPerSecond = 26f;
         [SerializeField] private float _calmDuration = 1.6f;
         [SerializeField] private float _telegraphDuration = 0.85f;

@@ -23,7 +23,7 @@ namespace Game.Gameplay
                 ["ui.play_again"] = "Сыграть снова",
 
                 ["hud.flame_label"] = "Пламя",
-                ["hud.controls_hint"] = "WASD: Движение  |  Space / ЛКМ: Удар огнём  |  Shift: Рывок (5%)  |  E: Действие",
+                ["hud.controls_hint"] = "WASD: Движение  |  Space / ЛКМ: Удар мечом  |  Shift: Рывок (5%)  |  E: Действие",
                 ["hud.inventory_prefix"] = "Предметы:",
                 ["hud.inventory_empty"] = "Предметы: пусто",
 
@@ -38,11 +38,13 @@ namespace Game.Gameplay
 
                 ["item.match"] = "Спичка",
                 ["item.planks"] = "Доски x{0}",
+                ["item.mine_key"] = "Ключ от склада",
                 ["item.explosive"] = "Взрывчатка",
                 ["item.lighthouse_key"] = "Ключ от маяка",
 
                 ["prompt.pickup.match"] = "Подобрать спичку",
                 ["prompt.pickup.plank"] = "Взять доску",
+                ["prompt.pickup.mine_key"] = "Подобрать ключ от склада",
                 ["prompt.pickup.explosive"] = "Взять взрывчатку",
                 ["prompt.pickup.key"] = "Подобрать ключ от маяка",
                 ["prompt.pickup.ember"] = "Поглотить уголёк (+пламя)",
@@ -53,7 +55,9 @@ namespace Game.Gameplay
 
                 ["prompt.door.open"] = "Открыть дверь",
                 ["prompt.door.unlock_key"] = "Открыть дверь ключом",
+                ["prompt.door.unlock_mine_key"] = "Открыть решётку ключом",
                 ["prompt.door.need_key"] = "Дверь заперта — найдите ключ возле старой тележки",
+                ["prompt.door.need_mine_key"] = "Проход заперт — найдите ключ у подземного озера",
                 ["prompt.door.locked_lever"] = "Металлическая дверь заперта — найдите рычаг",
                 ["prompt.door.locked_stairs"] = "Проход на винтовую лестницу закрыт — найдите рычаг",
 
@@ -62,11 +66,12 @@ namespace Game.Gameplay
                 ["prompt.bridge.need_planks"] = "Разрушенный мост — соберите 2 доски поблизости",
                 ["prompt.minecart.push"] = "Толкнуть старую вагонетку",
                 ["prompt.rockfall.detonate"] = "Взорвать обвал",
-                ["prompt.rockfall.need_explosive"] = "Завал в тоннеле — нужна взрывчатка из мастерской",
+                ["prompt.rockfall.need_explosive"] = "Завал в тоннеле — нужна взрывчатка (TNT)",
                 ["prompt.lighthouse.ignite"] = "Отдать пламя лампе Маяка",
 
                 ["toast.got_match"] = "Найдена спичка!",
                 ["toast.got_plank"] = "Подобрана доска для моста",
+                ["toast.got_mine_key"] = "Найден ключ от склада TNT!",
                 ["toast.got_explosive"] = "Взята взрывчатка!",
                 ["toast.got_key"] = "Найден ключ от Маяка!",
                 ["toast.got_ember"] = "Пламя окрепло!",
@@ -91,7 +96,7 @@ namespace Game.Gameplay
                 ["ui.play_again"] = "Play Again",
 
                 ["hud.flame_label"] = "Flame",
-                ["hud.controls_hint"] = "WASD: Move  |  Space / LMB: Flame Strike  |  Shift: Dash (5%)  |  E: Interact",
+                ["hud.controls_hint"] = "WASD: Move  |  Space / LMB: Sword Strike  |  Shift: Dash (5%)  |  E: Interact",
                 ["hud.inventory_prefix"] = "Items:",
                 ["hud.inventory_empty"] = "Items: none",
 
@@ -106,11 +111,13 @@ namespace Game.Gameplay
 
                 ["item.match"] = "Match",
                 ["item.planks"] = "Planks x{0}",
+                ["item.mine_key"] = "Storage Key",
                 ["item.explosive"] = "Explosive",
                 ["item.lighthouse_key"] = "Lighthouse Key",
 
                 ["prompt.pickup.match"] = "Pick up match",
                 ["prompt.pickup.plank"] = "Take plank",
+                ["prompt.pickup.mine_key"] = "Pick up storage key",
                 ["prompt.pickup.explosive"] = "Take explosive",
                 ["prompt.pickup.key"] = "Pick up lighthouse key",
                 ["prompt.pickup.ember"] = "Absorb ember (+flame)",
@@ -121,7 +128,9 @@ namespace Game.Gameplay
 
                 ["prompt.door.open"] = "Open door",
                 ["prompt.door.unlock_key"] = "Unlock door with key",
+                ["prompt.door.unlock_mine_key"] = "Unlock gate with key",
                 ["prompt.door.need_key"] = "Door locked — check near the old wooden cart",
+                ["prompt.door.need_mine_key"] = "Gate locked — find the key by the underground pool",
                 ["prompt.door.locked_lever"] = "Metal door locked — find a lever",
                 ["prompt.door.locked_stairs"] = "Spiral stair door locked — find a lever",
 
@@ -130,11 +139,12 @@ namespace Game.Gameplay
                 ["prompt.bridge.need_planks"] = "Broken bridge — collect 2 planks nearby",
                 ["prompt.minecart.push"] = "Push old minecart",
                 ["prompt.rockfall.detonate"] = "Blast rockfall",
-                ["prompt.rockfall.need_explosive"] = "Cave-in — find explosive in the workshop",
+                ["prompt.rockfall.need_explosive"] = "Cave-in — find TNT in the storage room",
                 ["prompt.lighthouse.ignite"] = "Sacrifice flame to light the Beacon",
 
                 ["toast.got_match"] = "Picked up a match!",
                 ["toast.got_plank"] = "Picked up a wood plank",
+                ["toast.got_mine_key"] = "Found the TNT storage key!",
                 ["toast.got_explosive"] = "Picked up explosive!",
                 ["toast.got_key"] = "Found the Lighthouse Key!",
                 ["toast.got_ember"] = "Flame restored!",

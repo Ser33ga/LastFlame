@@ -6,6 +6,7 @@ namespace Game.Character
     {
         public bool HasMatch { get; private set; }
         public int WoodPlanks { get; private set; }
+        public bool HasMineKey { get; private set; }
         public bool HasExplosive { get; private set; }
         public bool HasLighthouseKey { get; private set; }
 
@@ -41,6 +42,29 @@ namespace Game.Character
             }
 
             WoodPlanks -= count;
+            OnInventoryChanged?.Invoke();
+            return true;
+        }
+
+        public void GiveMineKey()
+        {
+            if (HasMineKey)
+            {
+                return;
+            }
+
+            HasMineKey = true;
+            OnInventoryChanged?.Invoke();
+        }
+
+        public bool TryConsumeMineKey()
+        {
+            if (!HasMineKey)
+            {
+                return false;
+            }
+
+            HasMineKey = false;
             OnInventoryChanged?.Invoke();
             return true;
         }
@@ -95,6 +119,7 @@ namespace Game.Character
         {
             HasMatch = false;
             WoodPlanks = 0;
+            HasMineKey = false;
             HasExplosive = false;
             HasLighthouseKey = false;
             OnInventoryChanged?.Invoke();

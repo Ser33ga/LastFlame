@@ -37,6 +37,7 @@ namespace Game.UI
         private bool _currentPromptCanInteract;
         private bool _hasMatch;
         private int _woodPlanks;
+        private bool _hasMineKey;
         private bool _hasExplosive;
         private bool _hasLighthouseKey;
 
@@ -139,10 +140,11 @@ namespace Game.UI
             }
         }
 
-        public void SetInventoryState(bool hasMatch, int woodPlanks, bool hasExplosive, bool hasLighthouseKey)
+        public void SetInventoryState(bool hasMatch, int woodPlanks, bool hasExplosive, bool hasLighthouseKey, bool hasMineKey = false)
         {
             _hasMatch = hasMatch;
             _woodPlanks = woodPlanks;
+            _hasMineKey = hasMineKey;
             _hasExplosive = hasExplosive;
             _hasLighthouseKey = hasLighthouseKey;
             RefreshInventoryText();
@@ -218,6 +220,12 @@ namespace Game.UI
             {
                 if (sb.Length > 0) sb.Append("  |  ");
                 sb.Append(_localization.Get("item.planks", _woodPlanks));
+            }
+
+            if (_hasMineKey)
+            {
+                if (sb.Length > 0) sb.Append("  |  ");
+                sb.Append(_localization.Get("item.mine_key"));
             }
 
             if (_hasExplosive)

@@ -214,7 +214,7 @@ MonoBehaviour:
   _lockAimOnTelegraph: 0
   _beamLength: 8.2
   _beamWidth: 2.1
-  _pushSpeed: 5.4
+  _pushSpeed: 3.5
   _flameDrainPerSecond: 28
   _idleDuration: 1.5
   _telegraphDuration: 0.8

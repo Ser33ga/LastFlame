@@ -13,10 +13,10 @@ namespace Game.Flame
         [SerializeField] private Transform _flameInnerVisual;
         [SerializeField] private SpriteRenderer _flameOuterRenderer;
 
-        [SerializeField] private float _minOuterRadius = 2.2f;
-        [SerializeField] private float _maxOuterRadius = 9.0f;
-        [SerializeField] private float _minIntensity = 0.6f;
-        [SerializeField] private float _maxIntensity = 1.6f;
+        [SerializeField] private float _minOuterRadius = 3.0f;
+        [SerializeField] private float _maxOuterRadius = 11.0f;
+        [SerializeField] private float _minIntensity = 0.75f;
+        [SerializeField] private float _maxIntensity = 1.85f;
 
         private IFlameService _flameService;
         private Vector3 _baseOuterScale = new Vector3(0.45f, 0.45f, 1f);
@@ -95,7 +95,7 @@ namespace Game.Flame
                 {
                     float curve = Mathf.Pow(n, 0.78f);
                     _pointLight.pointLightOuterRadius = Mathf.Lerp(_minOuterRadius, _maxOuterRadius, curve) + flicker * 2.5f;
-                    _pointLight.pointLightInnerRadius = Mathf.Lerp(0.45f, 2.2f, curve);
+                    _pointLight.pointLightInnerRadius = Mathf.Lerp(0.7f, 2.8f, curve);
                     _pointLight.intensity = Mathf.Lerp(_minIntensity, _maxIntensity, curve) + flicker * 1.1f;
                 }
             }

@@ -7,7 +7,7 @@ namespace Game.World
 {
     /// <summary>
     /// Stationary Wind Spirit ("Blower") that telegraphs and blasts a directional wind jet blocked by covers.
-    /// Can be temporarily stunned with the candle's flame strike.
+    /// Can be temporarily stunned with the candle's sword strike.
     /// </summary>
     public sealed class BlowerSpiritEnemy : MonoBehaviour, IDamageable
     {
@@ -23,7 +23,7 @@ namespace Game.World
         [SerializeField] private bool _lockAimOnTelegraph;
         [SerializeField] private float _beamLength = 6.5f;
         [SerializeField] private float _beamWidth = 2.0f;
-        [SerializeField] private float _pushSpeed = 5.4f;
+        [SerializeField] private float _pushSpeed = 3.5f;
         [SerializeField] private float _flameDrainPerSecond = 28f;
         [SerializeField] private float _idleDuration = 1.5f;
         [SerializeField] private float _telegraphDuration = 0.8f;

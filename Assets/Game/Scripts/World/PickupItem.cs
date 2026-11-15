@@ -13,7 +13,8 @@ namespace Game.World
         WoodPlank,
         Explosive,
         LighthouseKey,
-        WaxEmber
+        WaxEmber,
+        MineKey
     }
 
     /// <summary>
@@ -81,6 +82,7 @@ namespace Game.World
                 PickupItemKind.Explosive => "prompt.pickup.explosive",
                 PickupItemKind.LighthouseKey => "prompt.pickup.key",
                 PickupItemKind.WaxEmber => "prompt.pickup.ember",
+                PickupItemKind.MineKey => "prompt.pickup.mine_key",
                 _ => "prompt.pickup.generic"
             };
         }
@@ -139,6 +141,10 @@ namespace Game.World
                 case PickupItemKind.WaxEmber:
                     _flame?.AddFlame(_emberFlameAmount);
                     _hud?.ShowToast("toast.got_ember");
+                    break;
+                case PickupItemKind.MineKey:
+                    _inventory?.GiveMineKey();
+                    _hud?.ShowToast("toast.got_mine_key");
                     break;
             }
 

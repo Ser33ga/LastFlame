@@ -24,7 +24,7 @@ namespace Game.World
         [SerializeField] private Collider2D _bodyCollider;
 
         [SerializeField] private int _maxHealth = 3;
-        [SerializeField] private float _moveSpeed = 2.6f;
+        [SerializeField] private float _moveSpeed = 1.75f;
         [SerializeField] private float _aggroRadius = 6.5f;
         [SerializeField] private float _contactRadius = 0.85f;
         [SerializeField] private float _contactFlameLoss = 22f;

@@ -9,24 +9,27 @@ using UnityEngine;
 namespace Game.Character
 {
     /// <summary>
-    /// Top-down candle character controller handling movement, dash, flame attack, wind response, and interaction.
+    /// Top-down candle character controller handling movement, dash, sword strike, wind response, and interaction.
     /// </summary>
     public sealed class CandleController : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rb;
         [SerializeField] private Transform _bodyVisual;
         [SerializeField] private Transform _facingIndicator;
+        [SerializeField] private Transform _swordPivot;
+        [SerializeField] private Transform _slashArcRoot;
+        [SerializeField] private SpriteRenderer _slashArcRenderer;
         [SerializeField] private SpriteRenderer _attackFlashRenderer;
         [SerializeField] private CandleLightView _lightView;
 
-        [SerializeField] private float _moveSpeed = 5.4f;
-        [SerializeField] private float _dashSpeed = 13.5f;
-        [SerializeField] private float _dashDuration = 0.16f;
+        [SerializeField] private float _moveSpeed = 3.6f;
+        [SerializeField] private float _dashSpeed = 9.5f;
+        [SerializeField] private float _dashDuration = 0.17f;
         [SerializeField] private float _dashCooldown = 0.65f;
         [SerializeField] private float _dashFlameCost = 5f;
-        [SerializeField] private float _attackCooldown = 0.32f;
-        [SerializeField] private float _attackRange = 0.85f;
-        [SerializeField] private float _attackRadius = 1.45f;
+        [SerializeField] private float _attackCooldown = 0.34f;
+        [SerializeField] private float _attackRange = 0.95f;
+        [SerializeField] private float _attackRadius = 1.35f;
         [SerializeField] private float _interactRadius = 1.95f;
 
         private readonly Collider2D[] _attackHitsBuffer = new Collider2D[24];
@@ -57,6 +60,11 @@ namespace Game.Character
         private Tween _punchTween;
         private Tween _flashAlphaTween;
         private Tween _flashScaleTween;
+        private Tween _swordSwingTween;
+        private Tween _slashAlphaTween;
+        private Tween _slashScaleTween;
+        private float _swingSign = 1f;
+        private bool _isSwinging;
 
         public Vector2 Position => _rb != null ? _rb.position : (Vector2)transform.position;
         public Vector2 FacingDirection => _facingDirection;
@@ -95,6 +103,13 @@ namespace Game.Character
                 _attackFlashRenderer.color = c;
             }
 
+            if (_slashArcRenderer != null)
+            {
+                Color c = _slashArcRenderer.color;
+                c.a = 0f;
+                _slashArcRenderer.color = c;
+            }
+
             if (_input != null)
             {
                 _input.OnAttackPerformed += HandleAttackInput;
@@ -111,6 +126,9 @@ namespace Game.Character
             _punchTween.Stop();
             _flashAlphaTween.Stop();
             _flashScaleTween.Stop();
+            _swordSwingTween.Stop();
+            _slashAlphaTween.Stop();
+            _slashScaleTween.Stop();
         }
 
         public void SetControlsEnabled(bool enabled)
@@ -199,32 +217,97 @@ namespace Game.Character
 
             _attackCooldownTimer = _attackCooldown;
             Vector2 origin = Position + _facingDirection * _attackRange;
+            float facingAngle = Mathf.Atan2(_facingDirection.y, _facingDirection.x) * Mathf.Rad2Deg - 90f;
+            float startSweepAngle = facingAngle + _swingSign * 74f;
+            float endSweepAngle = facingAngle - _swingSign * 74f;
+            float slashFlipSign = _swingSign;
+            _swingSign = -_swingSign;
 
-            if (_attackFlashRenderer != null)
+            if (_swordPivot != null)
             {
-                Transform flashTf = _attackFlashRenderer.transform;
-                flashTf.position = new Vector3(origin.x, origin.y, flashTf.position.z);
-                flashTf.localScale = Vector3.one * 0.6f;
+                _swordSwingTween.Stop();
+                _isSwinging = true;
+                _swordPivot.localRotation = Quaternion.Euler(0f, 0f, startSweepAngle);
+                _swordSwingTween = Tween.Custom(
+                        this,
+                        startSweepAngle,
+                        endSweepAngle,
+                        0.14f,
+                        (target, angle) =>
+                        {
+                            if (target._swordPivot != null)
+                            {
+                                target._swordPivot.localRotation = Quaternion.Euler(0f, 0f, angle);
+                            }
+                        },
+                        Ease.OutCubic)
+                    .OnComplete(this, target => target._isSwinging = false);
+            }
 
-                Color startColor = new Color(1f, 0.72f, 0.22f, 0.85f);
-                _attackFlashRenderer.color = startColor;
+            if (_slashArcRoot != null && _slashArcRenderer != null)
+            {
+                _slashArcRoot.position = new Vector3(origin.x, origin.y, _slashArcRoot.position.z);
+                _slashArcRoot.localRotation = Quaternion.Euler(0f, 0f, facingAngle);
+                _slashArcRoot.localScale = new Vector3(0.75f * slashFlipSign, 0.55f, 1f);
 
-                _flashAlphaTween.Stop();
-                _flashScaleTween.Stop();
-                _flashScaleTween = Tween.Scale(flashTf, Vector3.one * 1.9f, 0.16f, Ease.OutQuad);
-                _flashAlphaTween = Tween.Alpha(_attackFlashRenderer, 0f, 0.18f, Ease.OutQuad);
+                _slashArcRenderer.color = new Color(0.92f, 0.96f, 1f, 0.92f);
+                _slashScaleTween.Stop();
+                _slashAlphaTween.Stop();
+                _slashScaleTween = Tween.Scale(
+                    _slashArcRoot,
+                    new Vector3(1.55f * slashFlipSign, 1.05f, 1f),
+                    0.15f,
+                    Ease.OutCubic);
+                _slashAlphaTween = Tween.Alpha(_slashArcRenderer, 0f, 0.16f, Ease.OutQuad);
             }
 
             if (_bodyVisual != null)
             {
                 _punchTween.Stop();
                 _bodyVisual.localScale = _baseBodyScale;
-                _punchTween = Tween.PunchScale(_bodyVisual, new Vector3(0.2f, 0.2f, 0f), 0.18f);
+                _punchTween = Tween.PunchScale(_bodyVisual, new Vector3(0.18f, -0.14f, 0f), 0.16f);
             }
 
-            int count = Physics2D.OverlapCircle(origin, _attackRadius, ContactFilter2D.noFilter, _attackHitsBuffer);
             _uniqueDamageables.Clear();
+            CollectDamageablesInSwing(origin, _attackRadius, enforceFrontArc: true);
+            CollectDamageablesInSwing(Position, 0.85f, enforceFrontArc: false);
 
+            bool hitAny = false;
+            foreach (IDamageable damageable in _uniqueDamageables)
+            {
+                Vector2 pushDir = (damageable.WorldPosition - Position).sqrMagnitude > 0.001f
+                    ? (damageable.WorldPosition - Position).normalized
+                    : _facingDirection;
+                damageable.TakeHit(1, pushDir * 7.8f);
+                hitAny = true;
+            }
+
+            if (_attackFlashRenderer != null)
+            {
+                Transform flashTf = _attackFlashRenderer.transform;
+                flashTf.position = new Vector3(origin.x, origin.y, flashTf.position.z);
+                flashTf.localScale = Vector3.one * (hitAny ? 0.55f : 0.35f);
+
+                Color startColor = hitAny
+                    ? new Color(1f, 0.92f, 0.58f, 0.85f)
+                    : new Color(0.86f, 0.93f, 1f, 0.35f);
+                _attackFlashRenderer.color = startColor;
+
+                _flashAlphaTween.Stop();
+                _flashScaleTween.Stop();
+                _flashScaleTween = Tween.Scale(flashTf, Vector3.one * (hitAny ? 1.45f : 0.95f), 0.14f, Ease.OutQuad);
+                _flashAlphaTween = Tween.Alpha(_attackFlashRenderer, 0f, 0.15f, Ease.OutQuad);
+            }
+
+            if (hitAny)
+            {
+                _cameraRig?.Shake(0.16f, 0.12f);
+            }
+        }
+
+        private void CollectDamageablesInSwing(Vector2 center, float radius, bool enforceFrontArc)
+        {
+            int count = Physics2D.OverlapCircle(center, radius, ContactFilter2D.noFilter, _attackHitsBuffer);
             for (int i = 0; i < count; i++)
             {
                 Collider2D hit = _attackHitsBuffer[i];
@@ -234,14 +317,21 @@ namespace Game.Character
                 }
 
                 IDamageable damageable = hit.GetComponent<IDamageable>() ?? hit.GetComponentInParent<IDamageable>();
-                if (damageable != null && damageable.IsAlive && _uniqueDamageables.Add(damageable))
+                if (damageable == null || !damageable.IsAlive)
                 {
-                    Vector2 pushDir = (damageable.WorldPosition - Position).sqrMagnitude > 0.001f
-                        ? (damageable.WorldPosition - Position).normalized
-                        : _facingDirection;
-                    damageable.TakeHit(1, pushDir * 7.5f);
-                    _cameraRig?.Shake(0.14f, 0.12f);
+                    continue;
                 }
+
+                if (enforceFrontArc)
+                {
+                    Vector2 toTarget = damageable.WorldPosition - Position;
+                    if (toTarget.sqrMagnitude > 0.2f && Vector2.Dot(toTarget.normalized, _facingDirection) < -0.25f)
+                    {
+                        continue;
+                    }
+                }
+
+                _uniqueDamageables.Add(damageable);
             }
         }
 
@@ -304,7 +394,7 @@ namespace Game.Character
             if (move.sqrMagnitude > 0.01f)
             {
                 _facingDirection = move.normalized;
-                _stepPulseTime += Time.deltaTime * 14f;
+                _stepPulseTime += Time.deltaTime * 10f;
                 if (_bodyVisual != null && !_punchTween.isAlive)
                 {
                     float squash = Mathf.Sin(_stepPulseTime) * 0.06f;
@@ -426,6 +516,14 @@ namespace Game.Character
             if (_facingIndicator != null)
             {
                 _facingIndicator.localPosition = new Vector3(_facingDirection.x * 0.55f, _facingDirection.y * 0.55f, 0f);
+            }
+
+            if (_swordPivot != null && !_isSwinging)
+            {
+                float facingAngle = Mathf.Atan2(_facingDirection.y, _facingDirection.x) * Mathf.Rad2Deg - 90f;
+                float readyAngle = facingAngle + _swingSign * 54f;
+                Quaternion targetRot = Quaternion.Euler(0f, 0f, readyAngle);
+                _swordPivot.localRotation = Quaternion.Slerp(_swordPivot.localRotation, targetRot, Time.deltaTime * 18f);
             }
 
             if (_lightView != null)

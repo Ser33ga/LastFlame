@@ -12,7 +12,7 @@ namespace Game.Flame
     public sealed class FlameService : IFlameService, ITickable
     {
         private const float DefaultMaxFlame = 100f;
-        private const float PassiveDrainPerSecond = 1.55f;
+        private const float PassiveDrainPerSecond = 1.10f;
         private const float SafeZoneRegenPerSecond = 35f;
 
         private int _safeZoneCount;

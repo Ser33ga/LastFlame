@@ -10,7 +10,8 @@ namespace Game.World
     {
         FreeInteract,
         MechanismControlled,
-        RequiresLighthouseKey
+        RequiresLighthouseKey,
+        RequiresMineKey
     }
 
     /// <summary>
@@ -60,6 +61,7 @@ namespace Game.World
                 DoorUnlockMode.FreeInteract => true,
                 DoorUnlockMode.MechanismControlled => false,
                 DoorUnlockMode.RequiresLighthouseKey => _inventory != null && _inventory.HasLighthouseKey,
+                DoorUnlockMode.RequiresMineKey => _inventory != null && _inventory.HasMineKey,
                 _ => false
             };
         }
@@ -77,6 +79,11 @@ namespace Game.World
             }
 
             if (_unlockMode == DoorUnlockMode.RequiresLighthouseKey && (_inventory == null || !_inventory.TryConsumeLighthouseKey()))
+            {
+                return;
+            }
+
+            if (_unlockMode == DoorUnlockMode.RequiresMineKey && (_inventory == null || !_inventory.TryConsumeMineKey()))
             {
                 return;
             }
